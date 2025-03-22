@@ -1,0 +1,21 @@
+name: AI Code Review Assistant
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  ai_review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Generate AI Review
+        run: python .github/scripts/review_code.py
+
+      - name: Post AI Review to PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python .github/scripts/post_review.py
